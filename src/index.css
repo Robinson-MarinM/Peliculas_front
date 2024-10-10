@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.fixed-size-img {
+  width: 100%;
+  height: 200px; /* Establece una altura fija */
+  object-fit: contain; /* Mantiene el aspecto de la imagen, ajustando con espacio en blanco si es necesario */
+  background-color: #f0f0f0; /* Color de fondo para el espacio en blanco */
+}

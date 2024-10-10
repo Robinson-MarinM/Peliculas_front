@@ -50,7 +50,7 @@ export default function Tipos() {
       {isLoading ? (
         <div>Cargando...</div>
       ) : (
-        <div className="row row-cols-1 row-cols-md-2 g-4">
+        <div className="row row-cols-1 row-cols-md-12 g-4">
           <div className="col">
             <table className='table'>
               <thead>
@@ -67,12 +67,12 @@ export default function Tipos() {
                     <td>{validateState(tipo.estado)}</td>
                     <td>{formatDate(tipo.fechaCreacion)}</td>
                     <td>
-                      <button
-                        className="btn btn-warning"
-                      >Editar</button>
-                      <button
-                        className="btn btn-danger"
-                      >Eliminar</button>
+                      <button className="btn btn-warning">
+                        <i className="bi bi-pencil"></i>
+                      </button>
+                      <button className="btn btn-danger">
+                        <i className="bi bi-trash"></i>
+                      </button>
                     </td>
                   </tr>
                 ))}

@@ -49,7 +49,7 @@ export default function Media() {
         <div className="row row-cols-1 row-cols-md-2 g-4" key={media.id} >
           <div className="col"> {/* Asegúrate de tener una key única para cada elemento */}
             <div className="card" onClick={editMedia(media._id)}>
-              <img src={media.imagenPortada} alt={media.titulo} />
+              <img src={media.imagenPortada} alt={media.titulo}  className="fixed-size-img"/>
               <div className="card-body">
                 <h5 className="card-title">{media.titulo}</h5>
                 <p className="card-text">{media.sinopsis}</p>
