@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { obtenerGeneros } from '../../services/generoService'
-import { NavLink } from 'react-router-dom';
+import daysjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 export default function Generos() {
 
   const [generos, setGeneros] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     listarGeneros()
@@ -26,17 +28,24 @@ export default function Generos() {
     }
   }
 
-  const agregar = () => { }
+  const agregar = () => { 
+    navigate('/generos/create')
+  }
+
+  const formatDate = (date) => {
+    return daysjs(date).format('DD/MM/YYYY');
+  }
+
+  const validateState = (state) => {
+    return state ? 'Activo' : 'Inactivo';
+  }
 
   return (
     <div className="container">
       <div>
-        <NavLink
-          to='/generos/create'
-          className='nav-link btn btn-primary'
-        >
-          crear Genero
-        </NavLink>
+        <button className="btn btn-primary" onClick={agregar}>
+          Agregar Genero
+        </button>
       </div>
       {isLoading ? (
         <div>Cargando...</div>
@@ -58,8 +67,8 @@ export default function Generos() {
                     <td>{genero._id}</td>
                     <td>{genero.nombre}</td>
                     <td>{genero.descripcion}</td>
-                    <td>{genero.estado.toString()}</td>
-                    <td>{genero.fechaCreacion}</td>
+                    <td>{validateState(genero.estado)}</td>
+                    <td>{formatDate(genero.fechaCreacion)}</td>
                   </tr>
                 ))}
               </tbody>

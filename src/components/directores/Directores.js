@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { obtenerDirectores } from '../../services/directorService'
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 
 export default function Directores() {
@@ -32,6 +33,14 @@ export default function Directores() {
     navigate('/directores/create')
   };
 
+  const formatDate = (date) => {
+    return dayjs(date).format('DD/MM/YYYY');
+  }
+
+  const validateState = (state) => {
+    return state ? 'Activo' : 'Inactivo';
+  }
+
   return (
     <div className="container">
       <button
@@ -45,19 +54,26 @@ export default function Directores() {
           <div className="col">
             <table className='table'>
               <thead>
-                <th>id</th>
                 <th>nombre</th>
                 <th>estado</th>
                 <th>fecha creacion</th>
+                <th>Acciones</th>
               </thead>
 
               <tbody>
                 {directores.map(director => (
                   <tr key={director._id}>
-                    <td>{director._id}</td>
                     <td>{director.nombre}</td>
-                    <td>{director.estado.toString()}</td>
-                    <td>{director.fechaCreacion}</td>
+                    <td>{validateState(director.estado)}</td>
+                    <td>{formatDate(director.fechaCreacion)}</td>
+                    <td>
+                      <button className="btn btn-warning">
+                        Editar
+                      </button>
+                      <button className="btn btn-danger">
+                        Eliminar
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

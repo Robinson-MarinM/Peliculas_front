@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { obtenerProductoras } from '../../services/productoraService'
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 
 export default function Productoras() {
@@ -31,6 +32,14 @@ export default function Productoras() {
     navigate('/productoras/create')
   };
 
+  const formatDate = (date) => {
+    return dayjs(date).format('DD/MM/YYYY');
+  }
+
+  const validateState = (state) => {
+    return state ? 'Activo' : 'Inactivo';
+  }
+
   return (
     <div className="container">
       <button
@@ -44,23 +53,30 @@ export default function Productoras() {
         <div className="col">
           <table className='table table-striped'>
             <thead>
-              <th>id</th>
               <th>nombre</th>
               <th>slogan</th>
               <th>descripcion</th>
               <th>estado</th>
               <th>fecha creacion</th>
+              <th>Acciones</th>
             </thead>
 
             <tbody>
               {productoras.map(productora => (
                 <tr key={productora._id}>
-                <td>{productora._id}</td>
                 <td>{productora.nombre}</td>
                 <td>{productora.descripcion}</td>
                 <td>{productora.slogan}</td>
-                <td>{productora.estado.toString()}</td>
-                <td>{productora.fechaCreacion}</td>
+                <td>{validateState(productora.estado)}</td>
+                <td>{formatDate(productora.fechaCreacion)}</td>
+                <td>
+                  <button className="btn btn-warning">
+                    Editar
+                  </button>
+                  <button className="btn btn-danger">
+                    Eliminar
+                  </button>
+                </td>
               </tr>
               ))}             
             </tbody>

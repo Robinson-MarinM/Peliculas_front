@@ -52,9 +52,16 @@ const obtenerMediaPorID = (id) => {
     })
 }
 
+const eliminarMediaPorID = (id) => {
+    return axiosConfig.delete('/medias/'+id, {
+        headers : headers
+    })
+}
+
 export {
     crearMedia,
     obtenerMedias,
     editarMediaPorID,
-    obtenerMediaPorID
+    obtenerMediaPorID,
+    eliminarMediaPorID
 }

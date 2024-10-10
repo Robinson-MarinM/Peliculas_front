@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import React from 'react'
 import { obtenerTipos } from "../../services/tipoService";
 import { useNavigate } from 'react-router-dom';
+import dayjs from "dayjs";
 
 
 
@@ -30,6 +31,15 @@ export default function Tipos() {
   const navigateAdminTipo = () => {
     navigate('/tipos/create')
   };
+
+  const formatDate = (date) => {
+    return dayjs(date).format('DD/MM/YYYY');
+  }
+
+  const validateState = (state) => {
+    return state ? 'Activo' : 'Inactivo';
+  }
+
   return (
     <div>
       <h1>Tipos</h1>
@@ -44,19 +54,26 @@ export default function Tipos() {
           <div className="col">
             <table className='table'>
               <thead>
-                <th>id</th>
                 <th>nombre</th>
                 <th>estado</th>
                 <th>fecha creacion</th>
+                <th>Acciones</th>
               </thead>
 
               <tbody>
                 {tipos.map(tipo => (
                   <tr key={tipo._id}>
-                    <td>{tipo._id}</td>
                     <td>{tipo.nombre}</td>
-                    <td>{tipo.estado.toString()}</td>
-                    <td>{tipo.fechaCreacion}</td>
+                    <td>{validateState(tipo.estado)}</td>
+                    <td>{formatDate(tipo.fechaCreacion)}</td>
+                    <td>
+                      <button
+                        className="btn btn-warning"
+                      >Editar</button>
+                      <button
+                        className="btn btn-danger"
+                      >Eliminar</button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
