@@ -28,25 +28,33 @@ const obtenerMedias = () => {
     })
 }
 
-// const editarGeneroPorID = (genero, id) => {
-//     const data = {
-//         nombre: genero.nombre,
-//         descripcion: genero.descripcion
-//     }
-//     return axiosConfig.put('/generos/'+id, data, {
-//         headers : headers
-//     })
-// }
+ const editarMediaPorID = (media, id) => {
+     const data = {
+        serial: media.serial,
+        titulo: media.titulo,
+        sinopsis: media.sinopsis,
+        url: media.url,
+        imagenPortada: media.imagenPortada,
+        fechaEstreno: media.fechaEstreno,
+        Genero: media.Genero,
+        Director: media.Director,
+        Productora: media.Productora,
+        Tipo: media.Tipo
+     }
+     return axiosConfig.put('/medias/'+id, data, {
+         headers : headers
+     })
+}
 
-// const obtenerGeneroPorID = (id) => {
-//     return axiosConfig.get('/generos'+id, {
-//         headers : headers
-//     })
-// }
+const obtenerMediaPorID = (id) => {
+    return axiosConfig.get('/medias/'+id, {
+        headers : headers
+    })
+}
 
 export {
     crearMedia,
     obtenerMedias,
-    //     editarGeneroPorID,
-    //     obtenerGeneroPorID
+    editarMediaPorID,
+    obtenerMediaPorID
 }

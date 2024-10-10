@@ -37,6 +37,7 @@ export default function AppRouter() {
                     <Route path="/directores/create" element={<AdminDirectores/>} />
                     <Route path="/productoras/create" element={<AdminProductoras />} />
                     <Route path="/tipos/create" element={<AdminTipos />} />
+                    <Route path="/medias/edit/:id" element={<GestionMedia />} />
                 </Routes>
             </main>
 

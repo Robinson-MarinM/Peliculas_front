@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { crearMedia } from '../../services/mediaService';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState} from 'react';
+import { crearMedia, obtenerMediaPorID, editarMediaPorID } from '../../services/mediaService';
+import { useNavigate, useParams  } from 'react-router-dom';
 import { obtenerDirectores } from '../../services/directorService';
 import { obtenerProductoras } from '../../services/productoraService';
 import { obtenerGeneros } from '../../services/generoService';
@@ -11,13 +11,43 @@ export default function GestionMedia() {
     const [productoras, setProductoras] = useState([]);
     const [generos, setGeneros] = useState([]);
     const [tipos, setTipos] = useState([]);
+    const { id } = useParams(); // Obtener el ID de la URL
 
     useEffect(() => {
         listarDirectores();
         listarProductoras();
         listarGeneros();
         listarTipos();
-    }, []);
+        if (id) {
+            cargarMedia(id); // Si hay un ID, cargamos la media correspondiente
+        }
+    }, [id]);
+
+    // Función para cargar la media según el ID
+    const cargarMedia = async (id) => {
+        try {
+            const { data } = await obtenerMediaPorID(id); // Suponiendo que tienes esta función en mediaService
+            setEditMedia(data); // Rellenar el formulario con los datos de la media
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const setEditMedia = (data) => {
+        const mediaEdit = {
+            serial: data.serial,
+            titulo: data.titulo,
+            sinopsis: data.sinopsis,
+            url: data.url,
+            imagenPortada: data.imagenPortada,
+            fechaEstreno: data.fechaEstreno,
+            Genero: data.Genero._id,
+            Director: data.Director._id,
+            Productora: data.Productora._id,
+            Tipo: data.Tipo._id
+        }
+        setMedia(mediaEdit);
+    }
 
     const listarDirectores = async () => {
         try {
@@ -116,9 +146,15 @@ export default function GestionMedia() {
             alert('Debe seleccionar un género, director, productora y tipo');
             return;
         }
+        if(id === undefined){
         console.log(media);
         crearMedia(media);  // Llamar a la función para crear el género con el objeto
         navigate('/medias')
+        }else{
+            console.log(media);
+            editarMediaPorID(media, id);
+            navigate('/medias')
+        }
     };
 
     return (
