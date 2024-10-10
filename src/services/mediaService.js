@@ -10,7 +10,7 @@ const crearMedia = (media) => {
         titulo: media.titulo,
         sinopsis: media.sinopsis,
         url: media.url,
-        imagen: media.imagen,
+        imagenPortada: media.imagenPortada,
         fechaEstreno: media.fechaEstreno,
         Genero: media.Genero,
         Director: media.Director,

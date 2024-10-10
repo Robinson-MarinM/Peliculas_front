@@ -1,7 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { crearMedia } from '../../services/mediaService';
 import { useNavigate } from 'react-router-dom';
+import { obtenerDirectores } from '../../services/directorService';
+import { obtenerProductoras } from '../../services/productoraService';
+import { obtenerGeneros } from '../../services/generoService';
+import { obtenerTipos } from '../../services/tipoService';
+
 export default function GestionMedia() {
+    const [directores, setDirectores] = useState([]);
+    const [productoras, setProductoras] = useState([]);
+    const [generos, setGeneros] = useState([]);
+    const [tipos, setTipos] = useState([]);
+
+    useEffect(() => {
+        listarDirectores();
+        listarProductoras();
+        listarGeneros();
+        listarTipos();
+    }, []);
+
+    const listarDirectores = async () => {
+        try {
+            const {data} = await obtenerDirectores();
+            setDirectores(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const listarProductoras = async () => {
+        try {
+            const {data} = await obtenerProductoras();
+            setProductoras(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const listarGeneros = async () => {
+        try {
+            const {data} = await obtenerGeneros();
+            setGeneros(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const listarTipos = async () => {
+        try {
+            const {data} = await obtenerTipos();
+            setTipos(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const navigate = useNavigate();
     // Estado para guardar los valores del formulario
     const [media, setMedia] = useState({
@@ -9,7 +64,7 @@ export default function GestionMedia() {
       titulo: '', 
       sinopsis: '', 
       url: '', 
-      imagen: '', 
+      imagenPortada: '', 
       fechaEstreno: '', 
       Genero: '', 
       Director: '', 
@@ -19,13 +74,49 @@ export default function GestionMedia() {
 
     // Función para manejar los cambios en los campos del formulario
     const handleChange = (e) => {
-        const { id, value } = e.target;
-        setMedia({ ...media, [id]: value });
+        const { name, value } = e.target;
+        setMedia({ ...media, [name]: value });
     };
 
     // Función para manejar el submit del formulario
     const handleSubmit = (e) => {
         e.preventDefault();  // Evitar el comportamiento por defecto del formulario
+        if(media.Genero === '' || media.Director === '' || media.Productora === '' || media.Tipo === ''){
+            alert('Debe seleccionar un género, director, productora y tipo');
+            return;
+        }
+        if(media.fechaEstreno === ''){
+            alert('Debe seleccionar una fecha de estreno');
+            return;
+        }
+        if(media.imagenPortada === ''){
+            alert('Debe seleccionar una imagen de portada');
+            return;
+        }
+        if(media.url === ''){
+            alert('Debe seleccionar una url');
+            return;
+        }
+        if(media.sinopsis === ''){
+            alert('Debe seleccionar una sinopsis');
+            return;
+        }
+        if(media.titulo === ''){
+            alert('Debe seleccionar un titulo');
+            return;
+        }
+        if(media.serial === ''){
+            alert('Debe seleccionar un serial');
+            return;
+        }
+        if(media.genero === ('Seleccione un Género') 
+            || media.director === ('Seleccione un Director') 
+        || media.productora === ('Seleccione una Productora') 
+        || media.tipo === ('Seleccione un Tipo')){
+            alert('Debe seleccionar un género, director, productora y tipo');
+            return;
+        }
+        console.log(media);
         crearMedia(media);  // Llamar a la función para crear el género con el objeto
         navigate('/medias')
     };
@@ -38,6 +129,7 @@ export default function GestionMedia() {
                     <input
                         type="text"
                         id="serial"
+                        name='serial'
                         className="form-control"
                         placeholder="serial"
                         value={media.serial}
@@ -49,6 +141,7 @@ export default function GestionMedia() {
                     <input
                         type="text"
                         id="titulo"
+                        name='titulo'
                         className="form-control"
                         placeholder="Titulo"
                         value={media.titulo}
@@ -60,6 +153,7 @@ export default function GestionMedia() {
                     <input
                         type="text"
                         id="sinopsis"
+                        name='sinopsis'
                         className="form-control"
                         placeholder="Sinopsis"
                         value={media.sinopsis}
@@ -71,6 +165,7 @@ export default function GestionMedia() {
                     <input
                         type="text"
                         id="url"
+                        name='url'
                         className="form-control"
                         placeholder="Url"
                         value={media.url}
@@ -81,7 +176,8 @@ export default function GestionMedia() {
                     <label htmlFor="imagen" className="form-label">Imagen</label>
                     <input
                         type="text"
-                        id="imagen"
+                        id="imagenPortada"
+                        name='imagenPortada'
                         className="form-control"
                         placeholder="Imagen"
                         value={media.imagenPortada}
@@ -93,6 +189,7 @@ export default function GestionMedia() {
                     <input
                         type="text"
                         id="fechaEstreno"
+                        name='fechaEstreno'
                         className="form-control"
                         placeholder="Fecha de estreno"
                         value={media.fechaEstreno}
@@ -101,47 +198,56 @@ export default function GestionMedia() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="Genero" className="form-label">Genero</label>
-                    <input
-                        type="text"
+                    <select
                         id="Genero"
-                        className="form-control"
-                        placeholder="Genero"
+                        name='Genero'
+                        className="form-select"
                         value={media.Genero}
                         onChange={handleChange}
-                    />
+                    ><option value="">Seleccione un Género</option>
+                        {generos.map((genero) => (
+                        <option key={genero._id} value={genero._id}>{genero.nombre}</option>
+                    ))} </select>                   
                 </div>
                 <div className="mb-3">
                     <label htmlFor="Director" className="form-label">Director</label>
-                    <input
-                        type="text"
+                    <select
                         id="Director"
-                        className="form-control"
-                        placeholder="Director"
+                        name='Director'
+                        className="form-select"
                         value={media.Director}
                         onChange={handleChange}
-                    />
+                    ><option value="">Seleccione un Director</option>
+                    {directores.map((director) => (
+                        <option key={director._id} value={director._id}>{director.nombre}</option>
+                    ))} </select>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="Productora" className="form-label">Productora</label>
-                    <input
-                        type="text"
+
+                    <select
                         id="Productora"
-                        className="form-control"
-                        placeholder="Productora"
+                        name='Productora'
+                        className="form-select"
                         value={media.Productora}
                         onChange={handleChange}
-                    />
+                    ><option value="">Seleccione una Productora</option>
+                        {productoras.map((productora) => (
+                        <option key={productora._id} value={productora._id}>{productora.nombre}</option>
+                    ))} </select>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="Tipo" className="form-label">Tipo</label>
-                    <input
-                        type="text"
+                    <select
                         id="Tipo"
-                        className="form-control"
-                        placeholder="Tipo"
+                        name='Tipo'
+                        className="form-select"
                         value={media.Tipo}
                         onChange={handleChange}
-                    />
+                    ><option value="">Seleccione un Tipo</option>
+                    {tipos.map((tipo) => (
+                        <option key={tipo._id} value={tipo._id}>{tipo.nombre}</option>
+                    ))} </select>
                 </div>
                 <button type="submit" className="btn btn-primary">Agregar</button>
             </form>

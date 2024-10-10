@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { obtenerProductoras } from '../../services/productoraService'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Productoras() {
 
   const [productoras, setProductoras] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     listarProductoras()
@@ -25,8 +27,16 @@ export default function Productoras() {
 
   }
 
+  const navigateAdminProductora  = () => {
+    navigate('/productoras/create')
+  };
+
   return (
     <div className="container">
+      <button
+        className="btn btn-primary"
+        onClick = {navigateAdminProductora}
+      >Agregar Productora</button>
       {isLoading ? (
         <div>Cargando...</div>
       ) : (
@@ -36,6 +46,7 @@ export default function Productoras() {
             <thead>
               <th>id</th>
               <th>nombre</th>
+              <th>slogan</th>
               <th>descripcion</th>
               <th>estado</th>
               <th>fecha creacion</th>
@@ -47,6 +58,7 @@ export default function Productoras() {
                 <td>{productora._id}</td>
                 <td>{productora.nombre}</td>
                 <td>{productora.descripcion}</td>
+                <td>{productora.slogan}</td>
                 <td>{productora.estado.toString()}</td>
                 <td>{productora.fechaCreacion}</td>
               </tr>

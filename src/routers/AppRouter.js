@@ -10,6 +10,10 @@ import Productoras from '../components/productoras/Productoras';
 import Tipos from '../components/tipos/Tipos';
 import Directores from '../components/directores/Directores';
 import AdminGeneros from '../components/generos/adminGeneros';
+import AdminDirectores from '../components/directores/AdminDirectores';
+import AdminProductoras from '../components/productoras/AdminProductora';
+import AdminTipos from '../components/tipos/AdminTipos';
+
 
 export default function AppRouter() {
 
@@ -30,6 +34,9 @@ export default function AppRouter() {
                     <Route path="*" element={<NotFound />} />
                     <Route path="/generos/create" element={<AdminGeneros />} />
                     <Route path="/medias/create" element={<GestionMedia />} />
+                    <Route path="/directores/create" element={<AdminDirectores/>} />
+                    <Route path="/productoras/create" element={<AdminProductoras />} />
+                    <Route path="/tipos/create" element={<AdminTipos />} />
                 </Routes>
             </main>
 

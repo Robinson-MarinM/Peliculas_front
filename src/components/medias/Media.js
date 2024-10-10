@@ -33,21 +33,19 @@ export default function Media() {
       </div>
       {isLoading ? (
         <div>Cargando...</div>
-      ) : (
-        <div className="row row-cols-1 row-cols-md-2 g-4">
-          {medias.map((media) => (
-            <div className="col" key={media.id}> {/* Asegúrate de tener una key única para cada elemento */}
+      ) : ( medias.map((media) => (
+        <div className="row row-cols-1 row-cols-md-2 g-4"  key={media.id}>
+            <div className="col"> {/* Asegúrate de tener una key única para cada elemento */}
               <div className="card">
-                <img src={media.imagen} alt={media.titulo} />
+                <img src={media.imagenPortada} alt={media.titulo} />
                 <div className="card-body">
                   <h5 className="card-title">{media.titulo}</h5>
                   <p className="card-text">{media.sinopsis}</p>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+            </div>
+          )))}
     </div>
   );
 }
