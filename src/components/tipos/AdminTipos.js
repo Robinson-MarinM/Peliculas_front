@@ -1,14 +1,37 @@
-import React, { useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect} from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { crearTipo } from "../../services/tipoService";
+import { obtenerTipoPorID } from '../../services/tipoService';
 
 
 export default function AdminTipo() {
-
+    const { id } = useParams();
     const [tipo, setTipo] = useState({
         nombre: '',
         descripcion: '',
+        estado: 'Activo'
     });
+
+    useEffect(() => {
+        if (id) {
+            cargarTipo(id);
+        }
+    }, [id]);
+
+    const cargarTipo = async (id) => {
+        const tipoObtenido = await obtenerTipoPorID(id);
+        setearTipo(tipoObtenido);
+    }
+
+    const setearTipo = (tipo) => {
+        const tipoEdit = {
+            nombre: tipo.nombre,
+            descripcion: tipo.descripcion,
+            estado: (tipo.estado ? 'Activo' : 'Inactivo')
+        }
+        setTipo(tipoEdit);
+    }
+
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -47,6 +70,21 @@ export default function AdminTipo() {
                         onChange={handleChange}
                     />
                 </div>
+                {id && (
+                    <div className="mb-3">
+                        <label htmlFor="estado" className="form-label">Estado</label>
+                        <select
+                            id="estado"
+                            name='estado'
+                            className="form-select"
+                            value={tipo.estado}
+                            onChange={handleChange}
+                        >
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                )}
                 <button type="submit" className="btn btn-primary">Agregar</button>
             </form>
         </div>

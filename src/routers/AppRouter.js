@@ -38,6 +38,10 @@ export default function AppRouter() {
                     <Route path="/productoras/create" element={<AdminProductoras />} />
                     <Route path="/tipos/create" element={<AdminTipos />} />
                     <Route path="/medias/edit/:id" element={<GestionMedia />} />
+                    <Route path="/generos/edit/:id" element={<AdminGeneros />} />
+                    <Route path="/directores/edit/:id" element={<AdminDirectores />} />
+                    <Route path="/productoras/edit/:id" element={<AdminProductoras />} />
+                    <Route path="/tipos/edit/:id" element={<AdminTipos />} />
                 </Routes>
             </main>
 

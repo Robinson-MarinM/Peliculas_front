@@ -41,6 +41,12 @@ export default function Directores() {
     return state ? 'Activo' : 'Inactivo';
   }
 
+  const editDirector = (id) => {
+    return () => {
+      navigate(`/directores/edit/${id}`)
+    }
+  }
+
   return (
     <div className="container">
       <button
@@ -67,11 +73,8 @@ export default function Directores() {
                     <td>{validateState(director.estado)}</td>
                     <td>{formatDate(director.fechaCreacion)}</td>
                     <td>
-                      <button className="btn btn-warning">
+                      <button className="btn btn-warning" onClick={editDirector(director._id)}>
                         <i className="bi bi-pencil"></i>
-                      </button>
-                      <button className="btn btn-danger">
-                        <i className="bi bi-trash"></i>
                       </button>
                     </td>
                   </tr>

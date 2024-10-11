@@ -10,6 +10,7 @@ export default function Productoras() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     listarProductoras()
   }, [])
@@ -20,15 +21,15 @@ export default function Productoras() {
       setProductoras(data);
       setIsLoading(false);
       console.log(data)
-      
+
     } catch (e) {
       console.log(e)
-      
+
     }
 
   }
 
-  const navigateAdminProductora  = () => {
+  const navigateAdminProductora = () => {
     navigate('/productoras/create')
   };
 
@@ -40,51 +41,52 @@ export default function Productoras() {
     return state ? 'Activo' : 'Inactivo';
   }
 
+  const editProductora = (id) => {
+    navigate(`/productoras/edit/${id}`)
+  }
+
   return (
     <div className="container">
       <button
         className="btn btn-primary"
-        onClick = {navigateAdminProductora}
+        onClick={navigateAdminProductora}
       >Agregar Productora</button>
       {isLoading ? (
         <div>Cargando...</div>
       ) : (
         <div className="row row-cols-1 row-cols-md-12 g-4">
-        <div className="col">
-          <table className='table'>
-            <thead>
-              <th>nombre</th>
-              <th>slogan</th>
-              <th>descripcion</th>
-              <th>estado</th>
-              <th>fecha creacion</th>
-              <th>Acciones</th>
-            </thead>
+          <div className="col">
+            <table className='table'>
+              <thead>
+                <th>nombre</th>
+                <th>slogan</th>
+                <th>descripcion</th>
+                <th>estado</th>
+                <th>fecha creacion</th>
+                <th>Acciones</th>
+              </thead>
 
-            <tbody>
-              {productoras.map(productora => (
-                <tr key={productora._id}>
-                <td>{productora.nombre}</td>
-                <td>{productora.descripcion}</td>
-                <td>{productora.slogan}</td>
-                <td>{validateState(productora.estado)}</td>
-                <td>{formatDate(productora.fechaCreacion)}</td>
-                <td>
-                      <button className="btn btn-warning">
+              <tbody>
+                {productoras.map(productora => (
+                  <tr key={productora._id}>
+                    <td>{productora.nombre}</td>
+                    <td>{productora.descripcion}</td>
+                    <td>{productora.slogan}</td>
+                    <td>{validateState(productora.estado)}</td>
+                    <td>{formatDate(productora.fechaCreacion)}</td>
+                    <td>
+                      <button className="btn btn-warning" onClick={editProductora(productora._id)}>
                         <i className="bi bi-pencil"></i>
                       </button>
-                      <button className="btn btn-danger">
-                        <i className="bi bi-trash"></i>
-                      </button>
                     </td>
-              </tr>
-              ))}             
-            </tbody>
-          </table>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    )}
+      )}
     </div>
-          )
-  
+  )
+
 }

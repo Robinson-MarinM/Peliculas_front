@@ -36,6 +36,7 @@ const obtenerMedias = () => {
         url: media.url,
         imagenPortada: media.imagenPortada,
         fechaEstreno: media.fechaEstreno,
+        estado: validateState(media.estado),
         Genero: media.Genero,
         Director: media.Director,
         Productora: media.Productora,
@@ -44,6 +45,14 @@ const obtenerMedias = () => {
      return axiosConfig.put('/medias/'+id, data, {
          headers : headers
      })
+}
+
+const validateState = (state) => {
+    if (state === 'Activo') {
+        return 'true'
+    } else {
+        return 'false'
+    }
 }
 
 const obtenerMediaPorID = (id) => {

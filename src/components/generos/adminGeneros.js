@@ -1,13 +1,37 @@
-import React, { useState } from 'react';
-import { crearGenero } from '../../services/generoService';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { crearGenero, obtenerGeneroPorID } from '../../services/generoService';
+import { useNavigate, useParams } from 'react-router-dom';
 export default function AdminGeneros() {
+
     const navigate = useNavigate();
-    // Estado para guardar los valores del formulario
+    const { id } = useParams();
+
+    useEffect = (() => {
+        if (id) {
+            cargarGenero(id);
+        }
+    }, [id]);
+
     const [genero, setGenero] = useState({
         nombre: '',
-        descripcion: ''
+        descripcion: '',
+        estado: 'Active'
     });
+
+    const cargarGenero = async (id) => {
+        const generoObtenido = await obtenerGeneroPorID(id);
+        seteargenero(generoObtenido);
+    }
+
+    const seteargenero = (genero) => {
+        const generoEdit = {
+            nombre: genero.nombre,
+            descripcion: genero.descripcion,
+            estado: (genero.estado ? 'Activo' : 'Inactivo')
+        }
+        setGenero(generoEdit);
+    }
+    
 
     // Función para manejar los cambios en los campos del formulario
     const handleChange = (e) => {
@@ -47,6 +71,21 @@ export default function AdminGeneros() {
                         onChange={handleChange}
                     />
                 </div>
+                {id && (
+                    <div className="mb-3">
+                        <label htmlFor="estado" className="form-label">Estado</label>
+                        <select
+                            id="estado"
+                            name='estado'
+                            className="form-select"
+                            value={genero.estado}
+                            onChange={handleChange}
+                        >
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                )}
                 <button type="submit" className="btn btn-primary">Agregar</button>
             </form>
         </div>

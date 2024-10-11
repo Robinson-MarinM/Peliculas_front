@@ -40,6 +40,12 @@ export default function Generos() {
     return state ? 'Activo' : 'Inactivo';
   }
 
+  const editGenero = (id) => {
+    return () => {
+      navigate(`/generos/edit/${id}`)
+    }
+  }
+
   return (
     <div className="container">
       <div>
@@ -69,11 +75,8 @@ export default function Generos() {
                     <td>{validateState(genero.estado)}</td>
                     <td>{formatDate(genero.fechaCreacion)}</td>
                     <td>
-                      <button className="btn btn-warning">
+                      <button className="btn btn-warning" onClick={editGenero(genero._id)}>
                         <i className="bi bi-pencil"></i>
-                      </button>
-                      <button className="btn btn-danger">
-                        <i className="bi bi-trash"></i>
                       </button>
                     </td>
                   </tr>

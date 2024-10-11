@@ -54,9 +54,18 @@ export default function Media() {
                 <h5 className="card-title">{media.titulo}</h5>
                 <p className="card-text">{media.sinopsis}</p>
               </div>
+              {media.estado ? (
+                <div className="card-footer text-muted">
+                  Activo
+                </div>
+              ) : (
+                <div className="card-footer text-muted">
+                  Inactivo
+                </div>
+              )}
             </div>
-            <button className="btn btn-danger" onClick={deleteMedia(media._id)}>
-              <i className="bi bi-trash"></i>
+            <button className="btn btn-warning" onClick={editMedia(media._id)}>
+              <i className="bi bi-pencil"></i>
             </button>
           </div>
         </div>

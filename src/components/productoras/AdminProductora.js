@@ -1,14 +1,39 @@
-import React, { useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState} from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { crearProductora } from "../../services/productoraService";
+import { obtenerProductoraPorID } from '../../services/productoraService';
 
 export default function AdminProductora() {
 
+    const { id } = useParams();
     const [productora, setProductora] = useState({
         nombre: '',
         slogan: '',
         descripcion: '',
+        estado: 'Activo'
     });
+
+    useEffect(() => {
+        if (id) {
+            cargarProductora(id);
+        }
+    }, [id]);
+
+    const cargarProductora = async (id) => {
+        const productoraObtenida = await obtenerProductoraPorID(id);
+        setearProductora(productoraObtenida);
+    }
+
+    const setearProductora = (productora) => {
+        const productoraEdit = {
+            nombre: productora.nombre,
+            slogan: productora.slogan,
+            descripcion: productora.descripcion,
+            estado: (productora.estado ? 'Activo' : 'Inactivo')
+        }
+        setProductora(productoraEdit);
+    }
+
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -58,7 +83,21 @@ export default function AdminProductora() {
                         onChange={handleChange}
                     />
                 </div>
-
+                {id && (
+                    <div className="mb-3">
+                        <label htmlFor="estado" className="form-label">Estado</label>
+                        <select
+                            id="estado"
+                            name='estado'
+                            className="form-select"
+                            value={productora.estado}
+                            onChange={handleChange}
+                        >
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                )}
                 <button type="submit" className="btn btn-primary">Agregar</button>
             </form>
         </div>
