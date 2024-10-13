@@ -40,9 +40,9 @@ export default function Tipos() {
     return state ? 'Activo' : 'Inactivo';
   }
 
-  const editTipo = (id) => {
-    navigate(`/tipos/edit/${id}`)
-  }
+  // const editTipo = (id) => {
+  //   navigate(`/tipos/edit/${id}`)
+  // }
 
   return (
     <div>
@@ -71,7 +71,7 @@ export default function Tipos() {
                     <td>{validateState(tipo.estado)}</td>
                     <td>{formatDate(tipo.fechaCreacion)}</td>
                     <td>
-                      <button className="btn btn-warning" onClick={editTipo(tipo._id)}>
+                      <button className="btn btn-warning">
                         <i className="bi bi-pencil"></i>
                       </button>
                       <button className="btn btn-danger">

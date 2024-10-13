@@ -41,9 +41,9 @@ export default function Productoras() {
     return state ? 'Activo' : 'Inactivo';
   }
 
-  const editProductora = (id) => {
-    navigate(`/productoras/edit/${id}`)
-  }
+  // const editProductora = (id) => {
+  //   navigate(`/productoras/edit/${id}`)
+  // }
 
   return (
     <div className="container">
@@ -75,7 +75,7 @@ export default function Productoras() {
                     <td>{validateState(productora.estado)}</td>
                     <td>{formatDate(productora.fechaCreacion)}</td>
                     <td>
-                      <button className="btn btn-warning" onClick={editProductora(productora._id)}>
+                      <button className="btn btn-warning">
                         <i className="bi bi-pencil"></i>
                       </button>
                     </td>
